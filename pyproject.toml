@@ -22,8 +22,8 @@ classifiers = [
   "Environment :: Console",
   "Intended Audience :: Developers",
   "Topic :: Software Development :: Libraries :: Python Modules",
-  "Topic :: Software Development :: Libraries :: pygame"
-  "Topic :: Games/Entertainment :: Turn Based Strategy",
+  "Topic :: Software Development :: Libraries :: pygame",
+  "Topic :: Games/Entertainment :: Turn Based Strategy"
 ]
 license = "MIT"
 license-files = ["LICEN[CS]E*"]

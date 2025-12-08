@@ -7,8 +7,8 @@ This module provides unit tests for Hand and HandInfo classes.
 import unittest
 
 # Local
-from hand import Hand
-from card import Card
+from HandsDecksCards.hand import Hand
+from HandsDecksCards.card import Card
 
 class Test_Hand(unittest.TestCase):
    

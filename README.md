@@ -11,7 +11,7 @@ If this is not the case, and you are just working with the source code, adjust t
 
 ### Using Card class
 ```python
-from card import Card
+from HandsDecksCards.card import Card
 
 # Create cards: King of Hearts and 10 of Diamonds
 c_kh = Card('H', 'K')
@@ -37,7 +37,7 @@ print(f"Created card list from string: {card_list}")
 
 ### Using Deck class
 ```python
-from deck import Deck
+from HandsDecksCards.deck import Deck
 
 # Create a deck of cards
 d = Deck()
@@ -55,8 +55,8 @@ provides a StackedDeck class, which represents a deck of cards with a predefined
 
 ### Using Hand class
 ```python
-from card import Card
-from hand import Hand
+from HandsDecksCards.card import Card
+from HandsDecksCards.hand import Hand
 
 # Create an empty hand of cards
 h = Hand()
@@ -98,7 +98,7 @@ print(f"Remaining cards in hand: {h}")
 
 ## Demonsration
 A demonstration of Card, Deck, and Hand functionality, based on the usage examples above, is provided in
-the main.py file in the src\HandsDecksCards directory. To run this demonstration, type ```python main.py``` in a terminal window.
+the main.py file in the src\HandsDecksCards directory. To run this demonstration, type ```python -m HandsDecksCards.main``` in a terminal window.
 
 ## Unittests
 

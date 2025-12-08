@@ -7,8 +7,8 @@ This module provides unit tests for Deck, ShoeDeck, and StackedDeck classes.
 import unittest
 
 # Local
-from deck import Deck, ShoeDeck, StackedDeck
-from card import Card
+from HandsDecksCards.deck import Deck, ShoeDeck, StackedDeck
+from HandsDecksCards.card import Card
 
 class Test_Deck(unittest.TestCase):
     

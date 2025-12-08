@@ -14,7 +14,7 @@ Exported Functions:
 
 
 # Local
-from card import Card
+from HandsDecksCards.card import Card
 
 
 class HandInfo:

@@ -18,7 +18,7 @@ Exported Functions:
 from random import randrange
 
 # Local
-from card import Card
+from HandsDecksCards.card import Card
 
 class Deck:
     """

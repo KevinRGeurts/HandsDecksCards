@@ -7,8 +7,8 @@ This module provides unit tests for Card class.
 import unittest
 
 # Local
-from card import Card
-from hand import Hand
+from HandsDecksCards.card import Card
+from HandsDecksCards.hand import Hand
 
 class Test_Card(unittest.TestCase):
     def test_construct_card_bad_suit(self):

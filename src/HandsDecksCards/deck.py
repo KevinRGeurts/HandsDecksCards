@@ -1,3 +1,19 @@
+"""
+This module defines classes representing decks of standard playing cards.
+
+Exported Classes:
+    Deck -- Represents a deck of playing cards.
+    ShoeDeck -- Represents a shoe of playing cards, from which cards can be drawn until the shoe is empty, and then it automatically refills itself.
+    StackedDeck -- Represents a stacked deck of playing cards. Where the deck can be ordered by the caller and cards will always be drawn top to bottom.
+
+Exported Exceptions:
+    None    
+ 
+Exported Functions:
+    None
+"""
+
+
 # Standard
 from random import randrange
 
@@ -6,22 +22,21 @@ from card import Card
 
 class Deck:
     """
-    Represents a deck of playing cards.\n
+    Represents a deck of playing cards.
     """
     
     def __init__(self, isInfinite = False):
         """
-        Construct a deck as a list of Card's.
-        If isInfinite, then when drawing cards from the deck, the deck will not be used up.
+        Construct a deck as a list of Card's. Note that a deck is never "shuffled", rather cards are drawn at random from the deck.
+        :parameter isInfinite: If True, then when drawing cards from the deck, the deck will not be used up, as boolean
         """
         self._isInfinite = isInfinite
         self._deck = self.create_deck()
 
-
     def create_deck(self):
         """
         Create and return a list of cards that represents a regular decks of playing cards.
-        :return: A list of Card()s, list
+        :return: A list of Card objects, list
         """
         # Build a standard deck of 52 playing cards as a list
         deck = []
@@ -79,45 +94,48 @@ class Deck:
         deck.append(Card('D','K'))            
         return deck   
 
-
     def add_card(self, card = Card()):
         """
         Add the argument Card to the deck.
-        :parameter card: The Card to add to the deck, Card
+        :parameter card: The Card to add to the deck, Card object
         :return: The current list of cards in the deck, a shallow copy of self._deck, list
         """
         self._deck.append(card)
         return list(self._deck)  # list(list) makes a shallow copy, which is what we want
-    
 
     def add_cards(self, cards = []):
         """
-        Add a list of Card()s to the deck.
-        :paramter cards: Card()s to be added to the deck.
-        :return: The current list of cards in the deck, a shallow copy of self._deck, list
+        Add a list of Card objects to the deck.
+        :paramter cards: List of Card objects to be added to the deck, list
+        :return: The current list of Cards objects in the deck, a shallow copy of self._deck, list
         """
         for c in cards:
             self.add_card(c)
         return list(self._deck) # list(list) makes a shallow copy, which is what we want
-            
     
     def cards_remaining(self):
         """
         Return the number of cards left in the deck.
-        :return: The number of cards left in the deck.
+        :return: The number of cards left in the deck, int
         """
         return len(self._deck)
-    
+
+    def __len__(self):
+        """
+        Return the number of cards left in the deck.
+        :return: The number of cards left in the deck, int
+        """
+        return self.cards_remaining()
     
     def draw(self, number = 1):
         """
-        Draw Card(s) at random from the deck. If deck _isInfinte = False, then the drawn Card(s) will be removed from deck.
-        :param number: The number of c\Cards to draw from the deck
-        :return: A single Card or a list of Card(s)
+        Draw cards at random from the deck. If deck _isInfinte = False, then the drawn cards will be removed from deck.
+        :param number: The number of cards to draw from the deck, int
+        :return: A single Card object or a list of Card objects
         """
         drawn=[]
         for c in range(number):
-            if self.cards_remaining() < 1:
+            if self.cards_remaining() < 1: 
                 # Deck is out of cards and needs to be restocked.
                 self._deck = self.create_deck()
             i=randrange(self.cards_remaining())
@@ -130,7 +148,6 @@ class Deck:
             return drawn[0]
         else:
             return drawn
-        
 
     def __str__(self):
         s = ''
@@ -154,12 +171,11 @@ class ShoeDeck(Deck):
         self._shoe_size = num_decks
         self._deck = self.create_shoe(self._shoe_size)
         
-        
     def create_shoe(self, num_decks):
         """
         Create and return a list of cards that represents a shoe of num_decks regular decks of playing cards.
         :parameter num_decks: How many regular decks are their in the shoe?, int
-        :return: A list of Card()s, list
+        :return: A list of Card objects, list
         """
         shoe = []
         for d in range(num_decks):
@@ -217,12 +233,11 @@ class ShoeDeck(Deck):
             shoe.append(Card('D','K'))            
         return shoe
     
-    
     def draw(self, number = 1):
         """
-        Draw Card(s) at random from the deck. If deck _isInfinte = False, then the drawn Card(s) will be removed from deck.
-        :param number: The number of c\Cards to draw from the deck
-        :return: A single Card or a list of Card(s)
+        Draw cards at random from the shoe. The shoe will automatically refill itself when empty.
+        :param number: The number of cards to draw from the shoe, int
+        :return: A single Card object or a list of Card objects
         """
         drawn=[]
         for c in range(number):
@@ -239,7 +254,6 @@ class ShoeDeck(Deck):
             return drawn[0]
         else:
             return drawn
- 
 
 class StackedDeck(Deck):
     """
@@ -249,7 +263,7 @@ class StackedDeck(Deck):
     
     def __init__(self):
         """
-        Construct a deck as an empty list of Card's.
+        Construct a deck as an empty list of Card objects.
         Assumption here is that user will populate the list themselves, before calling any methods on an object.
         Otherwise, draw() will assert.
         Set isInfinite to False, so that when drawing cards from the deck, the deck will be used up.
@@ -257,13 +271,12 @@ class StackedDeck(Deck):
         self._isInfinite = False
         # Create an empty deck of playing cards as a list
         self._deck=[]
- 
         
     def draw(self, number = 1):
         """
-        Draw Card(s) in order from the deck, and remove them from the deck.
-        :param number: The number of c\Cards to draw from the deck
-        :return: A single Card or a list of Card(s)
+        Draw cards in order from the deck, and remove them from the deck.
+        :param number: The number of cards to draw from the deck, int
+        :return: A single Card object or a list of Card objects
         """
         drawn=[]
         for c in range(number):

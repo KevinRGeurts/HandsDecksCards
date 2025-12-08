@@ -1,16 +1,33 @@
+"""
+This module defines classes representing Hands of standard playing cards.
+
+Exported Classes:
+    Hand -- Represents a hand of playing cards.
+    HandInfo -- Structured information about a Hand of playing cards most appropriate for playing Blackjack.
+
+Exported Exceptions:
+    None    
+ 
+Exported Functions:
+    None
+"""
+
+
 # Local
 from card import Card
+
 
 class HandInfo:
     """
     This class is a structured way of returning information from Hand.hand_info(). Think of this as a C struct, where it is
     expected that data members will be direcly accessed, because this class has no methods, beyound __init__().
+    The returned info is most appropriate for playing Blackjack, due to the special handling of aces.
     """
     def __init__(self):
         """
         Create the data members of structured info.
             Num_Aces = How many cards in the hand are aces, int
-            Num_Other = How many cards in the had are not aces, int
+            Num_Other = How many cards in the hand are not aces, int
             Count_Other = Sum of the pip values of the cards that are not aces, int
             Count_Min = Sum of the pip values of all the cards, treating any aces as having 1 pip, int
             Count_Max = Sum of the pip values of all the cards, treating the first ace as having 11 pips, and any remaining
@@ -23,18 +40,15 @@ class HandInfo:
         self.Count_Max = 0
         self.String_Rep = ''
         
-    
     def __str__(self):
-        s = 'String_rep = ' + self.String_Rep + 'Num_Aces = ' + str(self.Num_Aces) + ' Num_Other = ' + str(self.Num_Other) + ' Count_Other = ' + str(self.Count_Other) + ' Count_Min = ' + str(self.Count_Min) + ' Count_Max = ' + str(self.Count_Max)
+        s = 'String_rep = ' + self.String_Rep + ' Num_Aces = ' + str(self.Num_Aces) + ' Num_Other = ' + str(self.Num_Other) + ' Count_Other = ' + str(self.Count_Other) + ' Count_Min = ' + str(self.Count_Min) + ' Count_Max = ' + str(self.Count_Max)
         return s
 
 
 class Hand:
     """
-    Represents a hand of playing cards.\n
+    Represents a hand of playing cards.
     """
-
-
     def __init__(self):
         """
         Construct an empty hand of playing cards.
@@ -42,11 +56,10 @@ class Hand:
         # List of cards in the hand
         self._cards=[]
 
-    
     def add_cards(self, newCards=[]):
         """
-        Add a list of one or more new Card(s), or a single Card to the hand.
-        :param newCards: The lisf of new Card(s), or a single Card to be added to the hand
+        Add a list of one or more new Card objects, or a single Card object to the hand.
+        :param newCards: The list of new Card objects, or a single Card object to be added to the hand
         :return: A list of the cards in the hand, a shallow copy of self._cards, list
         """
         if type(newCards) == type(Card()):
@@ -55,72 +68,63 @@ class Hand:
             self._cards.extend(newCards)
         return list(self._cards) # list(list) makes a shallow copy, which is what we want
     
-    
     def get_aces(self):
         """
         Return a new Hand of only the aces in the Hand.
-        :return: A Hand of aces in the Hand.
+        :return: A Hand of aces in the Hand, Hand object
         """
         # Extract the list of any aces in the hand.
         # Do the extraction using a "list comprehension"
-        aces=[x for x in self._cards if x.get_pips() == 'A']
+        aces=[x for x in self._cards if x.pips == 'A']
         ah = Hand()
         ah.add_cards(aces)
         return ah
- 
     
     def get_num_aces(self):
         """
         Return the number of aces in the Hand.
-        :return: The integer number of aces in the Hand.
+        :return: The integer number of aces in the Hand, int
         """
         h = self.get_aces()
         return h.get_num_cards()
     
-    
     def get_non_aces(self):
         """
         Return a new Hand of only the non ace cards in the Hand.
-        :return: A Hand of non ace cards in the Hand.
+        :return: A Hand of non ace cards in the Hand, Hand object
         """
         # Extract the list of any aces in the hand.
         # Do the extraction using a "list comprehension"
-        non_aces=[x for x in self._cards if x.get_pips() != 'A']
+        non_aces=[x for x in self._cards if x.pips != 'A']
         h = Hand()
         h.add_cards(non_aces)
         return h
-
     
     def get_num_non_aces(self):
         """
         Return the number of cards that are not aces in the Hand.
-        :return: The integer number of cards that are not aces in the Hand.
+        :return: The integer number of cards that are not aces in the Hand, int
         """
         h = self.get_non_aces()
         return h.get_num_cards()
     
-   
     def get_num_cards(self):
         """
-        Return the total number of cards in the Hand. By convention, this method should be used, rather than 
-        directly accessing the Hand's _cards data member and using len(), to insulate the outside world from the details Hand's data model.
+        Return the total number of cards in the Hand.
         "return: Total number of cards in the hand, int
         """
         return len(self._cards)
     
-    
     def get_cards(self):
         """
-        Return a list of the cards in the Hand. By convention, this method should be used, rather than 
-        directly accessing the Hand's cards data member, to insulate the outside world from the details Hand's data model.
-        :return: Cards in the hand, a shallow copy of self._cards, list
+        Return a list of the cards in the Hand.
+        :return: Cards in the hand, a shallow copy of self._cards, list of Card objects
         """
         return list(self._cards) # list(list) makes a shallow copy, which is what we want
-
  
     def hand_info(self):
         """
-        Return a HandInfo object, with useful information for playing the hand in black jack.
+        Return a HandInfo object, with useful information most appropriate for playing the hand in Blackjack.
         :return: A HandInfo object of useful information about the hand
         """
         info=HandInfo()
@@ -148,11 +152,10 @@ class Hand:
 
         return info
     
-
     def count_hand(self):
         """
         Count the hand, with any aces treated as "low".
-        :return: The integer count value of the cards in the hand.
+        :return: The integer count value of the cards in the hand, int
         """
         count = 0
         
@@ -162,15 +165,13 @@ class Hand:
                 
         return count
     
-
     def remove_card(self, index = -1):
         """
         Remove the card at index from the hand. By default (index = -1), the last card will be removed.
         :parameter index: index of card to remove from the hand (starting at 0), int
-        :return: The card that was removed from the had, Card
+        :return: The card that was removed from the hand, Card object
         """
         return self._cards.pop(index)
-    
     
     def __str__(self):
         s = ''
@@ -180,7 +181,7 @@ class Hand:
         s = s[0:len(s)-1]
         return s
     
-    # Starting to implement methods so that a Hand can be treated as a container type. See Section 3.3.7. Emulating container types in
+    # Implement methods so that a Hand can be treated as a container type. See Section 3.3.7. Emulating container types in
     # https://docs.python.org/3/reference/datamodel.html#classgetitem-versus-getitem
     
     def __iter__(self):
@@ -198,12 +199,12 @@ class Hand:
         """
         Return a string that would yield an object with the same value when passed to eval().
         """
-        s = '['
+        s = 'Hand().add_cards(['
         for c in self._cards:
             s += repr(c) + ', '
         # Remove unneeded trailing comma space
         s = s[0:len(s)-2]
-        s += ']'
+        s += '])'
         return s
 
         

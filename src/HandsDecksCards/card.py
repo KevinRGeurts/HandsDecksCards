@@ -1,6 +1,20 @@
+"""
+This module defines the class Card, which represents a single card from a deck of playing cards.
+
+Exported Classes:
+    Card -- Represents a single card from a deck of playing cards.
+
+Exported Exceptions:
+    None    
+ 
+Exported Functions:
+    None
+"""
+
+
 class Card:
     """
-    Represents a single card from a deck of playing cards.\n
+    Represents a single card from a deck of playing cards.
     """
     
     def __init__(self, suit='H', pips='J'):
@@ -13,13 +27,13 @@ class Card:
         assert(suit == 'H' or suit == 'D' or suit == 'S' or suit == 'C')
         self._suit=suit
         self._pips=pips
-        self._count=self.get_count_from_pips(pips)
-        
+        self._count=self._get_count_from_pips(pips)
     
     def count_card(self, ace_high=False):
         """
         Return the numeric count of the card.
         :parameter ace_low: Should an ace be counted as 1 (False) or 11 (True)?
+        Note: An ace being counted as 11 is useful in Blackjack.
         :return: The numeric count of the card
         """
         card_count = 0;
@@ -29,13 +43,13 @@ class Card:
             card_count = self._count
         return card_count
 
-    
-    def get_sequence_count(self):
+    def _get_sequence_count(self):
         """
-        Return a numeric value that can be used to order a sequence of cards. Specifically A=1, [2...10], J=11, Q=12, K=13
+        Helper function to get a numeric value that can be used to order a sequence of cards.
+        :return: Numeric value that can be used to order a sequence of cards. Specifically A=1, [2...10], J=11, Q=12, K=13
         """
         count = self._count
-        # Handle J, Q, K by giving them a differnet count
+        # Handle J, Q, K by giving them a different count
         match self._pips:
             case 'J':
                 count = 11
@@ -46,11 +60,9 @@ class Card:
        
         return count
     
-    
     def __str__(self):
         return self._pips + self._suit
 
-    
     def __lt__(self, other):
         """
         Must be implemented for a sequence of Cards, e.g., a list to be sorted.
@@ -58,8 +70,8 @@ class Card:
             A < 2 < 3 < 4 < 5 < 6 < 7 < 8 < 9 < 10 < J < Q < K
         """
         less_than = False
-        self_count = self.get_sequence_count()
-        other_count = other.get_sequence_count()
+        self_count = self._get_sequence_count()
+        other_count = other._get_sequence_count()
         if self_count < other_count:
             less_than = True
 
@@ -68,12 +80,12 @@ class Card:
     def __repr__(self):
         """
         Return a string that would yield an object with the same value when passed to eval().
+        :return: String that would yield an object with the same value when passed to eval().
         """
         s = f"Card('{self._suit}','{self._pips}')"
         return s
         
-    
-    def get_count_from_pips(self, pips=''):
+    def _get_count_from_pips(self, pips=''):
         """
         Intended to be called by __init__(...) as a helper function to automatically determine the card count based on the pips.
         :parameter pips: A string representing the pips on a card (A, K, Q, J, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10), str
@@ -89,25 +101,21 @@ class Card:
             assert(card_count >= 2 and card_count <= 10)
         return card_count
 
-    # TODO: Could formalize this more by using @property decoration to turn pips into a property with a getter and (maybe) a setter.
-    # This could be done for many/all data members in this solution.
-    def get_pips(self):
+    @property
+    def pips(self):
         """
-        Return the Card's pips as a string. By convention, this method should be used to get a Card's pips, rather than 
-        directly accessing the _pips data member, to insulate the outside world from the details Card's data model.
-        "return: Card's pips, string
+        Return the Card's pips as a string.
+        :return: Card's pips, string
         """
         return self._pips
     
-
-    def get_suit(self):
+    @property
+    def suit(self):
         """
-        Return the Card's suit as a string. By convention, this method should be used to get a Card's suit, rather than 
-        directly accessing the _suit data member, to insulate the outside world from the details Card's data model.
-        "return: Card's suit, string
+        Return the Card's suit as a string.
+        :return: Card's suit, string
         """
         return self._suit
-    
 
     def make_card_list_from_str(self, card_str = ''):
         """

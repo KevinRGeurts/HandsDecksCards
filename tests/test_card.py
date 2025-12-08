@@ -1,3 +1,8 @@
+"""
+This module provides unit tests for Card class.
+"""
+
+
 # Standard
 import unittest
 
@@ -39,50 +44,46 @@ class Test_Card(unittest.TestCase):
         act_val = str(c)
         self.assertEqual(exp_val, act_val)
         
-    
     def test_get_count_from_pips(self):
         
         # Test for ace
         exp_val = 1
-        act_val = Card().get_count_from_pips('A')
+        act_val = Card()._get_count_from_pips('A')
         self.assertEqual(exp_val, act_val)
         
         # Test for king
         exp_val = 10
-        act_val = Card().get_count_from_pips('K')
+        act_val = Card()._get_count_from_pips('K')
         self.assertEqual(exp_val, act_val)
 
         # Test for queen
         exp_val = 10
-        act_val = Card().get_count_from_pips('Q')
+        act_val = Card()._get_count_from_pips('Q')
         self.assertEqual(exp_val, act_val)
 
         # Test for jack
         exp_val = 10
-        act_val = Card().get_count_from_pips('J')
+        act_val = Card()._get_count_from_pips('J')
         self.assertEqual(exp_val, act_val)
         
         # Test branch for 1-10
         exp_val = 6
-        act_val = Card().get_count_from_pips('6')
+        act_val = Card()._get_count_from_pips('6')
         self.assertEqual(exp_val, act_val)
         
         # Test trap bad pips
-        self.assertRaises(AssertionError, Card().get_count_from_pips, '11')
+        self.assertRaises(AssertionError, Card()._get_count_from_pips, '11')
 
-    
     def test_get_pips(self):
         exp_val = 'Q'
-        act_val = Card('S','Q').get_pips()
+        act_val = Card('S','Q').pips
         self.assertEqual(exp_val, act_val)
         
-
     def test_get_suit(self):
         exp_val = 'S'
-        act_val = Card('S','Q').get_suit()
+        act_val = Card('S','Q').suit
         self.assertEqual(exp_val, act_val)
         
-
     def test_make_card_list_from_str(self):
         exp_val = 'AS KH QD JC 10H 2S'
         card_list = Card().make_card_list_from_str('AS KH QD JC 10H 2S')

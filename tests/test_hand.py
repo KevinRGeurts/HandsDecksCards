@@ -1,3 +1,8 @@
+"""
+This module provides unit tests for Hand and HandInfo classes.
+"""
+
+
 # Standard
 import unittest
 
@@ -19,8 +24,8 @@ class Test_Hand(unittest.TestCase):
         act_val = h.get_num_cards()
         self.assertEqual(exp_val, act_val)
         # Is the first card in the hand the card we expect?
-        exp_val = (c.get_suit(), c.get_pips())
-        act_val = (h.get_cards()[0].get_suit(), h.get_cards()[0].get_pips())
+        exp_val = (c.suit, c.pips)
+        act_val = (h.get_cards()[0].suit, h.get_cards()[0].pips)
         self.assertTupleEqual(exp_val, act_val)
  
 
@@ -35,12 +40,12 @@ class Test_Hand(unittest.TestCase):
         act_val = h.get_num_cards()
         self.assertEqual(exp_val, act_val)
         # Is the first card in the hand the card we expect?
-        exp_val = (cards[0].get_suit(), cards[0].get_pips())
-        act_val = (h.get_cards()[0].get_suit(), h.get_cards()[0].get_pips())
+        exp_val = (cards[0].suit, cards[0].pips)
+        act_val = (h.get_cards()[0].suit, h.get_cards()[0].pips)
         self.assertTupleEqual(exp_val, act_val)
         # Is the second card in the hand the card we expect?
-        exp_val = (cards[1].get_suit(), cards[1].get_pips())
-        act_val = (h.get_cards()[1].get_suit(), h.get_cards()[1].get_pips())
+        exp_val = (cards[1].suit, cards[1].pips)
+        act_val = (h.get_cards()[1].suit, h.get_cards()[1].pips)
         self.assertTupleEqual(exp_val, act_val)
     
     
@@ -59,7 +64,7 @@ class Test_Hand(unittest.TestCase):
         self.assertEqual(exp_val, act_val)
         # Is the removed card the card we expect?
         exp_val = ('D', 'A')
-        act_val = (rc.get_suit(), rc.get_pips())
+        act_val = (rc.suit, rc.pips)
         self.assertTupleEqual(exp_val, act_val)
         
         # Remove the first card that is left
@@ -71,7 +76,7 @@ class Test_Hand(unittest.TestCase):
         self.assertEqual(exp_val, act_val)
         # Is the removed card the card we expect?
         exp_val = ('S', 'J')
-        act_val = (rc.get_suit(), rc.get_pips())
+        act_val = (rc.suit, rc.pips)
         self.assertTupleEqual(exp_val, act_val)
         
         
@@ -127,12 +132,12 @@ class Test_Hand(unittest.TestCase):
         act_val = h2.get_num_cards()
         self.assertEqual(exp_val, act_val)
         # Is the first card in the new non aces hand the card we expect?
-        exp_val = (cards[0].get_suit(), cards[0].get_pips())
-        act_val = (h2.get_cards()[0].get_suit(), h2.get_cards()[0].get_pips())
+        exp_val = (cards[0].suit, cards[0].pips)
+        act_val = (h2.get_cards()[0].suit, h2.get_cards()[0].pips)
         self.assertTupleEqual(exp_val, act_val)
         # Is the second card in the non aces hand the card we expect?
-        exp_val = (cards[1].get_suit(), cards[1].get_pips())
-        act_val = (h2.get_cards()[1].get_suit(), h2.get_cards()[1].get_pips())
+        exp_val = (cards[1].suit, cards[1].pips)
+        act_val = (h2.get_cards()[1].suit, h2.get_cards()[1].pips)
         self.assertTupleEqual(exp_val, act_val)
        
    
@@ -149,12 +154,12 @@ class Test_Hand(unittest.TestCase):
         act_val = h2.get_num_cards()
         self.assertEqual(exp_val, act_val)
         # Is the first card in the new aces hand the card we expect?
-        exp_val = (cards[2].get_suit(), cards[2].get_pips())
-        act_val = (h2.get_cards()[0].get_suit(), h2.get_cards()[0].get_pips())
+        exp_val = (cards[2].suit, cards[2].pips)
+        act_val = (h2.get_cards()[0].suit, h2.get_cards()[0].pips)
         self.assertTupleEqual(exp_val, act_val)
         # Is the second card in the new aces hand the card we expect?
-        exp_val = (cards[3].get_suit(), cards[3].get_pips())
-        act_val = (h2.get_cards()[1].get_suit(), h2.get_cards()[1].get_pips())
+        exp_val = (cards[3].suit, cards[3].pips)
+        act_val = (h2.get_cards()[1].suit, h2.get_cards()[1].pips)
         self.assertTupleEqual(exp_val, act_val)
 
     
@@ -258,7 +263,7 @@ class Test_Hand(unittest.TestCase):
         
         # Test that h[] works with a valid index
         exp_val = ('S', '5') # Card('S','5')
-        act_val = (h[2].get_suit(), h[2].get_pips())
+        act_val = (h[2].suit, h[2].pips)
         self.assertTupleEqual(exp_val, act_val)
         
         # Test that h[] raises an exception with an invalid index
@@ -270,7 +275,7 @@ class Test_Hand(unittest.TestCase):
         cards=[Card('S','J'), Card('H','3')]
         h.add_cards(cards)
         
-        exp_val = f"[Card('S','J'), Card('H','3')]"
+        exp_val = f"Hand().add_cards([Card('S','J'), Card('H','3')])"
         act_val = h.__repr__()
         self.assertEqual(exp_val, act_val)
         
